@@ -1,0 +1,12 @@
+# Vercel reinstalls deps and rebuilds — never upload these
+node_modules
+.next
+out
+tmp
+
+# Solidity / Foundry project is not part of the Next.js build
+contracts
+
+# VCS / local
+.git
+*.log

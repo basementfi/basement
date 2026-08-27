@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Coinbase Sans";
+  src: url("./WOFF2/Coinbase-Sans/Coinbase_Sans-Regular-web-1.32.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Coinbase Sans";
+  src: url("./WOFF2/Coinbase-Sans/Coinbase_Sans-Regular_Italic-web-1.32.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Coinbase Sans";
+  src: url("./WOFF2/Coinbase-Sans/Coinbase_Sans-Medium-web-1.32.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Coinbase Sans";
+  src: url("./WOFF2/Coinbase-Sans/Coinbase_Sans-Bold-web-1.32.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Coinbase Sans";
+  src: url("./WOFF2/Coinbase-Sans/Coinbase_Sans-Light-web-1.32.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Coinbase Sans";
+  src: url("./WOFF2/Coinbase-Sans/Coinbase_Sans-Extra_Light-web-1.32.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Always reserve scrollbar space to prevent layout shift */
+html {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+
+/* Dark theme (default) */
+:root {
+  --bg: #0e0e0e;
+  --bg2: #0e0e0e;
+  --card: rgba(27,27,27,0.85);
+  --border: rgba(255,255,255,0.1);
+  --text: #ffffff;
+  --text-muted: #7f7f7f;
+  --accent-from: #34D399;
+  --accent-to: #34D399;
+  --accent: #34D399;
+  --accent-gradient: linear-gradient(90deg, #34D399 0%, #34D399 100%);
+  --accent-glow: rgba(52, 211, 153, 0.25);
+}
+
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+.gradient-text {
+  background: #34D399;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+html { scroll-behavior: smooth; overflow-y: scroll; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Coinbase Sans", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* RainbowKit font override */
+[data-rk] button, [data-rk] span, [data-rk] div {
+  font-family: "Coinbase Sans", ui-sans-serif, system-ui, sans-serif !important;
+  font-weight: 300 !important;
+}
+.wallet-btn button, .wallet-btn span, .wallet-btn div {
+  font-size: 0.75rem !important;
+}
+
+/* Liquid glass card */
+.glass {
+  background: var(--card) !important;
+  backdrop-filter: blur(240px) saturate(160%);
+  -webkit-backdrop-filter: blur(240px) saturate(160%);
+  border: 1px solid var(--border) !important;
+}
+
+
+/* Hide number input spinners */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] { -moz-appearance: textfield; }
+
+/* Noise texture overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}

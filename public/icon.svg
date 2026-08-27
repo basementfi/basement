@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" fill="none">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4f8ef7"/>
+      <stop offset="100%" stop-color="#38d9a9"/>
+    </linearGradient>
+    <!-- Rounded rect clip for the background -->
+  </defs>
+  <!-- Background -->
+  <rect width="180" height="180" rx="40" fill="#0b0c14"/>
+  <!-- Takeoff path -->
+  <path
+    d="M 20 140 C 50 140, 80 55, 110 45 L 160 45"
+    stroke="url(#g)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none"
+  />
+  <!-- Arrowhead -->
+  <path
+    d="M 148 32 L 162 45 L 148 58"
+    stroke="url(#g)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none"
+  />
+</svg>
