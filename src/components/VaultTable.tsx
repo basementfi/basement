@@ -7,7 +7,7 @@ import { useMorphoApy } from "@/lib/useMorphoApy";
 import { useAeroApr } from "@/lib/useAeroApr";
 import { useReadContract } from "wagmi";
 import { EARN_USDC_ADDRESS, EARN_USDC_ABI, EARN_ETH_ADDRESS, EARN_BTC_ADDRESS, MORPHO_CBBTC_VAULT_ADDRESS, MORPHO_VAULT_ADDRESS, MORPHO_WETH_VAULT_ADDRESS, MORPHO_VAULT_ABI, AERO_LP_ABI, AERO_ZAP_ADDRESS, AERO_ZAP_ABI, ETH_USD_FEED, BTC_USD_FEED, CHAINLINK_ABI } from "@/lib/contracts";
-import { fmtUnits } from "@/lib/format";
+import { fmtUnits, fmtUsd } from "@/lib/format";
 
 const CURATORS: Record<string, string> = {
   usdc: "Morpho",
@@ -203,13 +203,8 @@ function useUsdcData() {
     query: { enabled: !!morphoShares },
   });
 
-  const tvlUsd = liveTvl !== undefined
-    ? liveTvl >= 1_000_000n * 1_000_000n ? `$${Math.round(Number(liveTvl) / 1e12)}M`
-    : `$${Math.round(Number(liveTvl) / 1e6).toLocaleString()}`
-    : "—";
-  const tvlAsset = liveTvl !== undefined
-    ? `${Math.round(Number(liveTvl) / 1e6).toLocaleString()} USDC`
-    : "—";
+  const tvlUsd = liveTvl !== undefined ? fmtUsd(Number(liveTvl) / 1e6) : "—";
+  const tvlAsset = liveTvl !== undefined ? `${fmtUnits(liveTvl, 6, 2)} USDC` : "—";
 
   const apyStr = apy !== null ? `${apy.toFixed(2)}%` : "—";
   const cap = useMorphoCap({ addr: EARN_USDC_ADDRESS, dec: 6, isUsd: true, symbol: "USDC" });

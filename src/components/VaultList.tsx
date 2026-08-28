@@ -24,11 +24,7 @@ function LiveUsdcStats() {
   });
 
   const tvlRaw = liveTvl !== undefined ? Number(liveTvl) / 1e6 : null;
-  const tvlStr = tvlRaw !== null
-    ? tvlRaw >= 1_000_000 ? `$${Math.round(tvlRaw / 1_000_000)}M`
-    : tvlRaw >= 1_000 ? `$${Math.round(tvlRaw / 1_000)}K`
-    : `$${Math.round(tvlRaw).toLocaleString()}`
-    : "—";
+  const tvlStr = tvlRaw !== null ? fmtUsd(tvlRaw) : "—";
   const apyStr = apy !== null ? `${apy.toFixed(2)}%` : "—";
 
   return <VaultStats tvl={tvlStr} apy={apyStr} />;

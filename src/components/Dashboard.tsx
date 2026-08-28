@@ -106,7 +106,7 @@ function UsdcVaultRow({ address, mobile }: { address: `0x${string}`; mobile?: bo
     ? fmtUsd(Number(morphoTotalAssets) / 1e6)
     : "—";
   const tvlNative = morphoTotalAssets !== undefined
-    ? `${Math.round(Number(morphoTotalAssets) / 1e6).toLocaleString()} USDC`
+    ? `${fmtUnits(morphoTotalAssets, 6, 2)} USDC`
     : "—";
   const apyStr = apy !== null ? `${apy.toFixed(2)}%` : "—";
   const vault = VAULTS.find(v => v.id === "usdc")!;
