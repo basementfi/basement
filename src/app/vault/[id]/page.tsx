@@ -617,6 +617,14 @@ export default function VaultPage({ params }: { params: Promise<{ id: string }> 
   // Zap paths are estimates (swap price-impact lands at submit), so they read as "~".
   const depositAssetInApprox = depositingMorphoZap || depositingExternal;
 
+  // RECEIVE-box amount. A cross-asset (zap) deposit pays a different token than the share it mints,
+  // so showing the raw input (e.g. "0.5" for 0.5 ETH → bUSDC) is wrong — show the swapped asset-out
+  // estimate instead (≈ the share amount, since the share is ~1:1 with its asset). Same-asset and
+  // native deposits keep the raw input (already the right token).
+  const receiveDisplay: string = depositingMorphoZap
+    ? (depositAssetIn !== undefined ? `~${fmtUnits(depositAssetIn, dec, isUsd ? 2 : 6)}` : "~…")
+    : (depositAmount || "0");
+
   // The review's position projection, "current → after", shown in the
   // summary box under the action's name. Only from figures that are live.
   const fmtAsset = (v: bigint) => (isUsd ? fmtUsd(toUnits(v, dec)) : `${fmtUnits(v, dec, 4)} ${vault.tokenSymbol}`);
@@ -1407,7 +1415,7 @@ export default function VaultPage({ params }: { params: Promise<{ id: string }> 
                             <span className="text-xs" style={{ color: "var(--text-muted)" }}>Yield-bearing · ERC-4626</span>
                           </div>
                           <div className="flex items-center gap-3">
-                            <span className="flex-1 min-w-0 truncate text-2xl" style={{ fontWeight: 300 }}>{depositAmount || "0"}</span>
+                            <span className="flex-1 min-w-0 truncate text-2xl" style={{ fontWeight: 300 }}>{receiveDisplay}</span>
                             <div className="h-9 flex items-center gap-2 px-3 rounded-xl shrink-0" style={{ background: "rgba(255,255,255,0.06)" }}>
                               {vault.shareIcon && <Image src={vault.shareIcon} alt={vault.shareSymbol ?? vault.name} width={20} height={20} className="rounded-full object-contain" unoptimized />}
                               <span className="font-semibold text-sm">{vault.shareSymbol ?? vault.name}</span>
@@ -1453,7 +1461,7 @@ export default function VaultPage({ params }: { params: Promise<{ id: string }> 
                           icon2={depositTokenIcon2}
                           amount={depositAmount}
                           tokenSymbol={depositTokenSymbol}
-                          usdValue={isUsd && depositAmount ? `$${Number(depositAmount).toFixed(2)}` : undefined}
+                          usdValue={isUsd && depositAssetIn !== undefined ? `${depositAssetInApprox ? "~" : ""}$${toUnits(depositAssetIn, dec).toLocaleString(undefined, { maximumFractionDigits: 2 })}` : undefined}
                           apy={!vault.comingSoon && displayApy > 0 ? `${displayApy.toFixed(2)}%` : undefined}
                           positionShift={positionShift(depositAssetIn, 1n, depositAssetInApprox)}
                           signSteps={depositSignSteps}
