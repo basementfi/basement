@@ -1,13 +1,14 @@
 export function fmt6(raw: bigint | undefined, decimals = 2): string {
-  if (!raw && raw !== 0n) return "0.00";
-  return (Number(raw) / 1e6).toFixed(decimals);
+  const v = raw == null ? 0 : Number(raw) / 1e6;
+  return v.toLocaleString(undefined, { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
 }
 
-/// Decimal-aware amount formatter. `tokenDecimals` is the token's on-chain
-/// decimals (6 for USDC, 18 for WETH); `displayDecimals` is how many to show.
+/// Decimal-aware amount formatter with thousands separators — e.g. 1,000.00.
+/// `tokenDecimals` is the token's on-chain decimals (6 for USDC, 18 for WETH);
+/// `displayDecimals` is how many to show.
 export function fmtUnits(raw: bigint | undefined, tokenDecimals: number, displayDecimals = 2): string {
-  if (raw === undefined || raw === null) return (0).toFixed(displayDecimals);
-  return (Number(raw) / 10 ** tokenDecimals).toFixed(displayDecimals);
+  const v = raw == null ? 0 : Number(raw) / 10 ** tokenDecimals;
+  return v.toLocaleString(undefined, { minimumFractionDigits: displayDecimals, maximumFractionDigits: displayDecimals });
 }
 
 /// Numeric value of a raw token amount (e.g. 1_500000 @ 6 decimals -> 1.5).
@@ -31,8 +32,8 @@ export function formatUsdc(raw: bigint | undefined): string {
   return (Number(raw) / 1e6).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 });
 }
 
+/// Full USD format with thousands separators and 2 decimals — e.g. $1,000.00, $1,234,567.89.
+/// (No K/M abbreviation.)
 export function fmtUsd(n: number): string {
-  if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(2)}M`;
-  if (n >= 1_000) return `$${(n / 1_000).toFixed(0)}K`;
-  return `$${n.toLocaleString()}`;
+  return `$${(n || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
